@@ -1,5 +1,8 @@
 var gulp        = require('gulp'),
-    less        = require ('gulp-less'),
+    babelify    = require('babelify'),
+    browserify  = require('browserify'),
+    source      = require('vinyl-source-stream'),
+    less        = require('gulp-less'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
     concat      = require('gulp-concat'),
@@ -7,25 +10,29 @@ var gulp        = require('gulp'),
     order       = require('gulp-order')
     watch       = require('gulp-watch');
 
+gulp.task ('default', ['styles', 'scripts']);
+
 gulp.task ('styles', function () {
     return gulp
-    .src('src/less/*.less')
+    .src('./src/less/*.less')
     .pipe(less())
     .pipe(minifyCSS())
     .pipe(concat('css.css'))
-    .pipe(gulp.dest('assets/css/'));
+    .pipe(gulp.dest('./assets/css/'));
 });
 
 gulp.task ('scripts', function () {
-    return gulp
-    .src('src/js/*.js')
-    .pipe(uglify())
-    .pipe(concat('script.min.js'))
-    .pipe(gulp.dest('assets/js/'));
+    browserify({
+    entries: './src/js/main.js',
+    debug: true
+    })
+    .transform(babelify)
+    .bundle()
+    .pipe(source('script.min.js'))
+    .pipe(gulp.dest('./assets/js/'));
 });
 
-gulp.task ('build', ['styles', 'scripts']);
-
-gulp.task ('default', ['build'], function () {
-    gulp.watch('src/**/*', ['build']);
+gulp.task ('watch', ['default'], function () {
+    gulp.watch('./src/js/**/*', ['scripts']);
+    gulp.watch('./src/less/*', ['styles']);
 });
