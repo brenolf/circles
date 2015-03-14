@@ -1,27 +1,19 @@
 export default class Circle {
 
-    constructor (board) {
-        this.ctx = board.getContext();
-        this.clipping_size = board.getBounds();
-        this.bounds = this.draw();
+    constructor (context, x = 0, y = 0, r = 50) {
+        this.ctx = context;
+
+        this.setPosition(x, y);
+        this.setRadius(r);
     }
 
     draw () {
-        let position = this._getPosition();
-        let radius = 20;
-
         this.ctx.save();
         this.ctx.fillStyle = this._getColor();
         this.ctx.beginPath();
-        this.ctx.arc(position.x, position.y, radius, 0, 2 * Math.PI);
+        this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         this.ctx.fill();
         this.ctx.restore();
-
-        return {
-            x: position.x,
-            y: position.y,
-            r: radius
-        };
     }
 
     _getColor () {
@@ -31,11 +23,13 @@ export default class Circle {
         return colours[ ~~(Math.random() * 8) ];
     }
 
-    _getPosition () {
-        return {
-            x: ~~(Math.random() * this.clipping_size.width),
-            y: ~~(Math.random() * this.clipping_size.height)
-        }
+    setPosition (x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    setRadius (r) {
+        this.radius = r;
     }
 
 }

@@ -29,4 +29,11 @@ export default class Board {
         return this.context.clearRect(0, 0, w, h);
     }
 
+    randomPoint () {
+        return {
+            x: ~~(Math.random() * this.bounds.width),
+            y: ~~(Math.random() * this.bounds.height)
+        }
+    }
+
 }
