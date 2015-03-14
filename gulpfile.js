@@ -2,6 +2,7 @@ var gulp        = require('gulp'),
     babelify    = require('babelify'),
     browserify  = require('browserify'),
     source      = require('vinyl-source-stream'),
+    buffer      = require('vinyl-buffer'),
     less        = require('gulp-less'),
     minifyCSS   = require('gulp-minify-css'),
     rename      = require('gulp-rename'),
@@ -29,6 +30,8 @@ gulp.task ('scripts', function () {
     .transform(babelify)
     .bundle()
     .pipe(source('script.min.js'))
+    .pipe(buffer())
+    .pipe(uglify())
     .pipe(gulp.dest('./assets/js/'));
 });
 
