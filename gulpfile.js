@@ -9,7 +9,8 @@ var gulp        = require('gulp'),
     concat      = require('gulp-concat'),
     uglify      = require('gulp-uglify')
     order       = require('gulp-order')
-    watch       = require('gulp-watch');
+    watch       = require('gulp-watch')
+    ghPages     = require('gulp-gh-pages');
 
 gulp.task ('default', ['styles', 'scripts']);
 
@@ -33,6 +34,14 @@ gulp.task ('scripts', function () {
     .pipe(buffer())
     .pipe(uglify())
     .pipe(gulp.dest('./assets/js/'));
+});
+
+gulp.task('deploy', function() {
+    return gulp
+    .src(['./index.html', './assets/'])
+    .pipe(ghPages({
+        message: 'Deploy on gh-pages'
+    }));
 });
 
 gulp.task ('watch', ['default'], function () {
