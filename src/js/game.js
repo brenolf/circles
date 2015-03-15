@@ -1,5 +1,5 @@
-import Board from "./board";
-import Circle from "./circle";
+import Board from './board';
+import Circle from './circle';
 
 export default class Game {
 
@@ -11,7 +11,8 @@ export default class Game {
     }
 
     start () {
-        this.addElement();
+        this._addBlob();
+        this._resize();
         this.timer = window.requestAnimationFrame(this.start.bind(this));
     }
 
@@ -20,7 +21,7 @@ export default class Game {
         this.timer = null;
     }
 
-    addElement () {
+    _addBlob () {
         let c = new Circle(this.board.getContext());
         let position = this.board.randomPoint();
         position.radius = 50;
@@ -31,6 +32,10 @@ export default class Game {
         c.setRadius(position.radius);
 
         c.draw();
+    }
+
+    _resize () {
+        
     }
 
 }

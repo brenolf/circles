@@ -1,6 +1,6 @@
-require("babel/polyfill");
+require('babel/polyfill');
 
-import Game from "./game.js";
+import Game from './game.js';
 
 window.onload = function () {
     window.game = new Game('game');

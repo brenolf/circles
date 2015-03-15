@@ -17,10 +17,10 @@ export default class Circle {
     }
 
     _getColor () {
-        let colours = ['#34b827', '#F76C27', '#6D9DD1', '#e76395', '#cade08',
+        const colours = ['#34b827', '#F76C27', '#e76395', '#cade08',
         '#22b1bd', '#7E45D3', '#E73F3F'];
 
-        return colours[ ~~(Math.random() * 8) ];
+        return colours[ ~~(Math.random() * 7) ];
     }
 
     setPosition (x, y) {
