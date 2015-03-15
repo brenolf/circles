@@ -12,5 +12,15 @@ canvas {
     position: absolute;
     top: 0;
     left: 0;
-    background: #CFCFD3;
+
+    background: 
+        linear-gradient(135deg, #CFCFD3 25%, transparent 5%) -50px 0,
+        linear-gradient(225deg, #CFCFD3 25%, transparent 5%) -50px 0,
+        linear-gradient(315deg, #CFCFD3 25%, transparent 5%),
+        linear-gradient(45deg,  #CFCFD3 25%, transparent 5%);   
+
+    background-size: 50px 50px;
+
+    background-color: lighten(#CFCFD3, 4%);
+    color: darken(#CFCFD3, 20%);
 }

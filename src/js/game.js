@@ -6,10 +6,12 @@ export default class Game {
     constructor (canvas_id) {
         this.board = new Board(canvas_id);
         this.queue = [];
-        this.n = 25;
+        this.n = 30;
         this.threshold = 1000;
+        this.timer = null;
 
         this.bindClick();
+        this.bindKeyPress();
         
         // this.start();
     }
@@ -36,6 +38,20 @@ export default class Game {
         window.onclick = function (event) {
             let [x, y] = [event.pageX, event.pageY];
             _.propagate(x, y);
+        };
+    }
+
+    bindKeyPress () {
+        let _ = this;
+
+        window.onkeyup = function (event) {
+            if (event.keyCode === 32) {
+                if (_.timer === null)
+                    _.start();
+
+                else
+                    _.stop();
+            }
         };
     }
 
@@ -71,7 +87,7 @@ export default class Game {
         for (let i = length; i >= 0; i--) {
             let circle = this.queue[i];
 
-            circle.setRadius = circle.getRadius + 0.1;
+            circle.setRadius = circle.getRadius + 0.3;
             circle.draw();
 
             if (circle.getRadius >= this.threshold)
