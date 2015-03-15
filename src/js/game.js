@@ -6,18 +6,21 @@ export default class Game {
     constructor (canvas_id) {
         this.board = new Board(canvas_id);
         this.queue = [];
-        this.n = 0;
+        this.n = 25;
+        this.threshold = 1000;
+
+        this.bindClick();
         
         // this.start();
     }
 
     start () {
-        this.n++;
+        this.board.reset();
 
-        if (this.n < 10)
-            this._addBlob();
-
-        this._resize();
+        if (this.queue.length < this.n)
+            this.addBlob();
+        
+        this.resize();
         
         this.timer = window.requestAnimationFrame(this.start.bind(this));
     }
@@ -27,10 +30,32 @@ export default class Game {
         this.timer = null;
     }
 
-    _addBlob () {
+    bindClick () {
+        let _ = this;
+
+        window.onclick = function (event) {
+            let [x, y] = [event.pageX, event.pageY];
+            _.propagate(x, y);
+        };
+    }
+
+    propagate (x, y) {
+        let length = this.queue.length;
+
+        for (let i = 0; i < length; i++) {
+            let circle = this.queue[i];
+
+            if (circle.inside(x, y)) {
+                this.queue.splice(i, 1);
+                break;
+            }
+        }
+    }
+
+    addBlob () {
         let circle = new Circle(this.board.getContext);
         let position = this.board.randomPoint;
-        position.radius = 50;
+        position.radius = 0;
 
         circle.setPosition = [position.x, position.y];
         circle.setRadius = position.radius;
@@ -40,10 +65,17 @@ export default class Game {
         circle.draw();
     }
 
-    _resize () {
-        for (let circle of this.queue) {
-            circle.setRadius = circle.getRadius + 0.5;
+    resize () {
+        let length = this.queue.length - 1;
+
+        for (let i = length; i >= 0; i--) {
+            let circle = this.queue[i];
+
+            circle.setRadius = circle.getRadius + 0.1;
             circle.draw();
+
+            if (circle.getRadius >= this.threshold)
+                this.queue.splice(i, 1);
         }
     }
 

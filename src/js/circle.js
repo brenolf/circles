@@ -17,6 +17,13 @@ export default class Circle {
         this.ctx.restore();
     }
 
+    inside (x, y) {
+        let square_dist = (this.x - x) * (this.x - x) + 
+                          (this.y - y) * (this.y - y);
+
+        return square_dist <= this.radius * this.radius;
+    }
+
     get colour () {
         const colours = ['#34b827', '#F76C27', '#e76395', '#cade08',
         '#22b1bd', '#7E45D3', '#E73F3F'];
@@ -36,5 +43,4 @@ export default class Circle {
     set setRadius (r) {
         this.radius = r;
     }
-
 }
