@@ -6,13 +6,19 @@ export default class Game {
     constructor (canvas_id) {
         this.board = new Board(canvas_id);
         this.queue = [];
+        this.n = 0;
         
-        this.start();
+        // this.start();
     }
 
     start () {
-        this._addBlob();
+        this.n++;
+
+        if (this.n < 10)
+            this._addBlob();
+
         this._resize();
+        
         this.timer = window.requestAnimationFrame(this.start.bind(this));
     }
 
@@ -22,20 +28,23 @@ export default class Game {
     }
 
     _addBlob () {
-        let c = new Circle(this.board.getContext);
+        let circle = new Circle(this.board.getContext);
         let position = this.board.randomPoint;
         position.radius = 50;
 
-        this.queue.push(position);
+        circle.setPosition = [position.x, position.y];
+        circle.setRadius = position.radius;
 
-        c.setPosition = [position.x, position.y];
-        c.setRadius = position.radius;
+        this.queue.push(circle);
 
-        c.draw();
+        circle.draw();
     }
 
     _resize () {
-
+        for (let circle of this.queue) {
+            circle.setRadius = circle.getRadius + 0.5;
+            circle.draw();
+        }
     }
 
 }

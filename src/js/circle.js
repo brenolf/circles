@@ -5,11 +5,12 @@ export default class Circle {
 
         this.setPosition = [x, y];
         this.radius = r;
+        this.bg = this.colour
     }
 
     draw () {
         this.ctx.save();
-        this.ctx.fillStyle = this.colour;
+        this.ctx.fillStyle = this.bg;
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
         this.ctx.fill();
@@ -26,6 +27,10 @@ export default class Circle {
     set setPosition ([x, y]) {
         this.x = x;
         this.y = y;
+    }
+
+    get getRadius () {
+        return this.radius;
     }
 
     set setRadius (r) {
