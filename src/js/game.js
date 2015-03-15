@@ -1,14 +1,16 @@
 import Board from './board';
 import Circle from './circle';
+import Text from './text';
 
 export default class Game {
 
     constructor (canvas_id) {
         this.board = new Board(canvas_id);
         this.queue = [];
-        this.n = 30;
         this.threshold = 1000;
         this.timer = null;
+        this.tic = Date.now();
+        this.score = new Text(this.board.getContext, 50, 30)
 
         this.bindClick();
         this.bindKeyPress();
@@ -19,12 +21,15 @@ export default class Game {
     start () {
         this.board.reset();
 
-        if (this.queue.length < this.n)
+        let time = (Date.now() - this.tic) / 200000;
+
+        if (Math.random() <= time)
             this.addBlob();
         
         this.resize();
-        
         this.timer = window.requestAnimationFrame(this.start.bind(this));
+
+        this.score.draw(this.queue.length);
     }
 
     stop () {
@@ -63,6 +68,7 @@ export default class Game {
 
             if (circle.inside(x, y)) {
                 this.queue.splice(i, 1);
+                this.score.draw(this.queue.length);
                 break;
             }
         }
@@ -87,7 +93,7 @@ export default class Game {
         for (let i = length; i >= 0; i--) {
             let circle = this.queue[i];
 
-            circle.setRadius = circle.getRadius + 0.3;
+            circle.setRadius = circle.getRadius + 0.1;
             circle.draw();
 
             if (circle.getRadius >= this.threshold)
