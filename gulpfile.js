@@ -16,35 +16,36 @@ gulp.task ('default', ['styles', 'scripts']);
 
 gulp.task ('styles', function () {
     return gulp
-    .src('./src/less/*.less')
+    .src('./src/less/**/*.less')
     .pipe(less())
     .pipe(minifyCSS())
     .pipe(concat('css.css'))
-    .pipe(gulp.dest('./assets/css/'));
+    .pipe(gulp.dest('./build/assets/css/'));
 });
 
 gulp.task ('scripts', function () {
     browserify({
-    entries: './src/js/main.js',
-    debug: true
+        entries: './src/js/main.js',
+        debug: true
     })
     .transform(babelify)
     .bundle()
     .pipe(source('script.min.js'))
     .pipe(buffer())
     .pipe(uglify())
-    .pipe(gulp.dest('./assets/js/'));
+    .pipe(gulp.dest('./build/assets/js/'));
 });
 
-gulp.task('deploy', function() {
+gulp.task('deploy', ['default'], function() {
     return gulp
-    .src(['./index.html', './assets/'])
+    .src('./build/**/*')
     .pipe(ghPages({
-        message: 'Deploy on gh-pages'
+        message: 'Deploy on gh-pages',
+        force: true
     }));
 });
 
 gulp.task ('watch', ['default'], function () {
     gulp.watch('./src/js/**/*', ['scripts']);
-    gulp.watch('./src/less/*', ['styles']);
+    gulp.watch('./src/less/**/*', ['styles']);
 });
