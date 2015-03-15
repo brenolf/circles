@@ -22,20 +22,20 @@ export default class Game {
     }
 
     _addBlob () {
-        let c = new Circle(this.board.getContext());
-        let position = this.board.randomPoint();
+        let c = new Circle(this.board.getContext);
+        let position = this.board.randomPoint;
         position.radius = 50;
 
         this.queue.push(position);
 
-        c.setPosition(position.x, position.y);
-        c.setRadius(position.radius);
+        c.setPosition = [position.x, position.y];
+        c.setRadius = position.radius;
 
         c.draw();
     }
 
     _resize () {
-        
+
     }
 
 }

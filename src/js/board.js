@@ -14,14 +14,6 @@ export default class Board {
         this.context = canvas.getContext('2d');
     }
 
-    getContext () {
-        return this.context;
-    }
-
-    getBounds () {
-        return this.bounds;
-    }
-
     reset () {
         let w = this.bounds.width;
         let h = this.bounds.height;
@@ -29,7 +21,15 @@ export default class Board {
         return this.context.clearRect(0, 0, w, h);
     }
 
-    randomPoint () {
+    get getContext () {
+        return this.context;
+    }
+
+    get getBounds () {
+        return this.bounds;
+    }
+
+    get randomPoint () {
         return {
             x: ~~(Math.random() * this.bounds.width),
             y: ~~(Math.random() * this.bounds.height)
